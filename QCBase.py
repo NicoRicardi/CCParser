@@ -55,7 +55,8 @@ class VarNames(object):
     # -- Issues & Warnings --
     has_converged = "state_cnvgd"
     
-    # -- Frozen-Density Embedding --
+    # -- Frozen-Density Embedding
+    prepol_charges = "prepol_charges"
     fde_omega_ref = "fde_omega_ref"
     fde_omega_I   = "fde_omega_I"
     fde_trust     = "fde_trust"

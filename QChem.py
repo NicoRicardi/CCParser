@@ -682,7 +682,8 @@ class FDE_ADC(QCMethod):
     """ Parsing related to FDE-ADC implementation in Q-Chem """
     def __init__(self):
         super().__init__()# necessary for every derived class of QCMethod
-        self.hooks = {"omega_ref": "FDE control parameter",
+        self.hooks = {"prepol_charges": "charges (prepol):",
+                      "omega_ref": "FDE control parameter",
                       "omega_I": "Omega(FDE)",
                       "trust": "lambda(FDE)",
                       "delta_lin": "Delta_Lin:",
@@ -710,6 +711,18 @@ class FDE_ADC(QCMethod):
                       "V_NA_NB"      : "Nuc_A <-> Nuc_B:"}
 
     #TODO: implement new parsing for omega_ref, keep old one for legacy purpose
+    def prepol_charges(self, i, data):
+        """ Parse charges used for prepolarisation """
+        self.add_variable(self.func_name(), V.prepol_charges)
+        mLogger.info("charges used for prepolarisation",
+             extra={"Parsed":V.prepol_charges})
+        charges=[]
+        i+=1
+        while len(data[i].split())==1:
+            charges.append(float(data[i]))
+            i+=1
+        return charges
+    
     @var_tag(V.fde_omega_ref)
     def omega_ref(self, i, data):
         """ Parse FDE trust parameter (before construction of embedding potential) [ppm] """
